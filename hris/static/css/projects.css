@@ -1,0 +1,21 @@
+table {
+    position: absolute!important;
+    width: 75%!important; 
+    border-collapse: collapse!important;
+    border-spacing: 0!important;
+    box-shadow: 0 2px 15px #C4C4C4!important;
+    border-radius: 15px 15px 15px 15px!important;
+    overflow: hidden!important;
+}
+
+td , th {
+    padding: 15px 20px!important;
+    text-align: center!important;
+    background-color: #ffffff!important;
+}
+
+th {
+    background-color: #ffffff!important;
+    color: #000000!important;
+    font-weight: bold!important;
+}

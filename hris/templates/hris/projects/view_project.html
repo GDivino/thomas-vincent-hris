@@ -1,0 +1,39 @@
+{% extends 'hris/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>{{ project.project_title }}</h1>
+<div class='group1'>
+    <div class='column'>
+        <p>Project Type</p>
+        <h3>{{ project.project_type }}</h3>
+
+        <p>Start Date</p>
+        <h3>{{ project.start_date }}</h3>
+    </div>
+    <div class='column'>
+        <p>Location</p>
+        <h3>{{ project.project_location }}</h3>
+
+        <p>End Date</p>
+        <h3>{{ project.end_date }}</h3>
+    </div>
+</div>
+
+<div class='group1'>
+    <div class='column'>
+        <p>Project-In-Charge (PIC)</p>
+        <h3>{{ project.project_in_charge }}</h3>
+
+        <p>Client</p>
+        <h3>{{ project.client }}</h3>
+    </div>
+    <div class='column'>
+        <p>PIC Contact Number</p>
+        <h3>{{ project.project_in_charge_contact_number }}</h3>
+
+        <p>Client Contact Number</p>
+        <h3>{{ project.client_contact_number }}</h3>
+    </div>
+</div>
+{% endblock %}
