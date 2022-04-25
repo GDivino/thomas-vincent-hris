@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{% static '/css/projects.css' %}">
     <link rel="stylesheet" href="{% static '/css/login.css' %}">
     <link rel="stylesheet" href="{% static '/css/applicants.css' %}">
+    <link rel="stylesheet" href="{% static '/css/workers.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 </head>
 <body>
@@ -24,7 +25,7 @@
         <div class="sidebar-menu">
             <ul>
                 <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i><p>Dashboard</p></a></li>
-                <li><a href="#"><i class="fas fa-user-friends"></i><p>Workers</p></a></li>
+                <li><a href="{% url 'workers' %}"><i class="fas fa-user-friends"></i><p>Workers</p></a></li>
                 <li><a href="{% url 'projects' %}"><i class="fas fa-hard-hat"></i><p>Projects</p></a></li>
                 <li><a href="#"><i class="fas fa-desktop"></i><p>Users</p></a></li>
                 <div class="active"></div>

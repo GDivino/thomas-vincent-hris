@@ -1,0 +1,35 @@
+{% extends 'hris/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Worker Profile</h1>
+
+<img src='{{ MEDIA_URL }}{{ worker.image }}' class='app_pic'/>
+<div class='app_details_container'>
+    <p>First Name: </p>
+    <p>{{ worker.first_name }}</p>
+</div>
+
+<div class='app_details_container'>
+    <p>Last Name: </p>
+    <p>{{ worker.last_name }}</p>
+</div>
+
+<div class='app_details_container'>
+    <p>Contact Number: </p>
+    <p>{{ worker.contact_number }}</p>
+</div>
+
+<div class="col">
+    <div class="nav-item text-right mb-2">
+        <a class="page-item" href="{% url 'delete_worker' pk=worker.worker_id %}"><b>Delete Applicant</b></a>
+    </div>
+</div>
+
+<div class="col">
+    <div class="nav-item text-right mb-2">
+        <a class="page-item" href="{% url 'update_worker' pk=worker.worker_id %}"><b>Update Applicant</b></a>
+    </div>
+</div>
+
+{% endblock %}

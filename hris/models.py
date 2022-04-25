@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.db import models
 
 # This is an auto-generated Django model module.
@@ -81,6 +82,7 @@ class WorkerT(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=30)
     contact_number = models.CharField(max_length=16, blank=True, null=True)
+    image = models.ImageField(upload_to='worker')
 
     class Meta:
         managed = True

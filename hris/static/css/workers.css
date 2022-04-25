@@ -1,0 +1,17 @@
+.app_container a {
+    width: 113px;
+    display: flex;
+    flex-direction: column;
+}
+
+.app_pic {
+    width: 113px;
+    height: 113px;
+    object-fit: cover;
+    border-radius: 15px;
+    align-self: center;
+}
+
+.app_name {
+    align-self: center;
+}
