@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<h1 style="font-size:24px; font-weight: bold;">Create New Aplicant Profile</h1>
+<h1 style="font-size:24px; font-weight: bold;">Create New Worker Profile</h1>
 <div class="container-fluid mt-1 g-2 pt-4">
     <form class="add-form" method="POST" action="{% url 'add_worker' %}" enctype="multipart/form-data"> {% csrf_token %}
       <div class="form-floating form-group row">
