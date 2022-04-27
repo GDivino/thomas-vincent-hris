@@ -8,52 +8,68 @@
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=DM Sans'>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
+    
     <link rel="stylesheet" href="{% static '/css/base.css' %}">
     <link rel="stylesheet" href="{% static '/css/projects.css' %}">
     <link rel="stylesheet" href="{% static '/css/login.css' %}">
     <link rel="stylesheet" href="{% static '/css/applicants.css' %}">
-    <link rel="stylesheet" href="{% static '/css/workers.css' %}">
+    <link rel="stylesheet" href="{% static '/css/workers.css' %}">  
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+  
 </head>
 <body>
-    <input type="checkbox" id="nav-toggle">
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="{% static 'logo.png' %}" class="logo-img">
-        </div>
-        <hr class="rounded">
-        <div class="sidebar-menu">
-            <ul>
-                <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i><p>Dashboard</p></a></li>
-                <li><a href="{% url 'workers' %}"><i class="fas fa-user-friends"></i><p>Workers</p></a></li>
-                <li><a href="{% url 'projects' %}"><i class="fas fa-hard-hat"></i><p>Projects</p></a></li>
-                <li><a href="#"><i class="fas fa-desktop"></i><p>Users</p></a></li>
-                <div class="active"></div>
-            </ul>
-        </div>
-    </div>
-    <div class="main-content">
-        <header>
-            <div class="search-wrapper">
-                <span class="fas fa-search"></span>
-                <input type="search" placeholder="Search" /> 
-            </div>
-            <div class="user-wrapper">
-                <i class="far fa-bell"></i>
-                <img src="{% static 'profile.jpg' %}" width="40px" height="40px" alt="">
-                <div class="user">
-                    <h4>User</h4>
-                    <small>Management</small>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-white">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-4 pt-2 text-white min-vh-100">
+                    <div class="sidebar-brand d-flex align-items-center ml-5 pb-3 mb-md-0 me-md-auto">
+                        <img src="{% static 'logo.png' %}" class="logo-img mt-4" width="90px">
+                    </div>
+                    <hr class="rounded">
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <a href="{% url 'dashboard' %}" class="nav-link align-middle px-0">
+                                <i class="fas fa-home pr-3 pb-3 pt-3"></i><span class="ms-1 d-none d-sm-inline">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'workers' %}" class="nav-link px-0 align-middle">
+                                <i class="fas fa-user-friends pr-3 pb-3"></i><span class="ms-1 d-none d-sm-inline">Workers</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'projects' %}" class="nav-link px-0 align-middle">
+                                <i class="fas fa-hard-hat pr-3 pb-3"></i> <span class="ms-1 d-none d-sm-inline">Projects</span> </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fas fa-desktop pr-3"></i> <span class="ms-1 d-none d-sm-inline">Users</span> </a>
+                        </li>
+                        <div class="active"></div>
+                    </ul>
+                    <hr>
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{% static 'profile.jpg' %}" width="30" height="30" class="rounded-circle mr-3">
+                            <span class="d-none d-sm-inline mx-1">User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Log out</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <span class="fas fa-angle-down"></span>
             </div>
-        </header>
-        <main>
-            <div>
+            <div class="col py-5 px-5">
                 {% block content %}
                 {% endblock %}
-            </div>            
-        </main>
+            </div>
+        </div>
     </div>
 </body>
 </html>
+      

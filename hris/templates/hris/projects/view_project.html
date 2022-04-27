@@ -2,38 +2,137 @@
 {% load static %}
 
 {% block content %}
-<h1>{{ project.project_title }}</h1>
-<div class='group1'>
-    <div class='column'>
-        <p>Project Type</p>
-        <h3>{{ project.project_type }}</h3>
-
-        <p>Start Date</p>
-        <h3>{{ project.start_date }}</h3>
+<h1 style="font-size:24px; font-weight: bold;">{{ project.project_title }}</h1>
+<div class="container-fluid mt-1 g-2 pt-4">
+    <div class="form-group row">
+        <div class="col-3">
+            <label for="ptype" class="col-form-label">Project Type</label>
+            <h6><b>{{ project.project_type }}</b></h6>
+        </div>
+        <div class="col-3">
+            <label for="plocation" class="col-form-label">Location</label>
+            <h6><b>{{ project.project_location }}</b></h6>
+        </div>
+        <div class="col-3">
+            <label for="ppic" class="col-form-label">Project-in-Charge (PIC)</label>
+            <h6><b>{{ project.project_in_charge }}</b></h6>
+        </div>
+        <div class="col-3">
+            <label for="ppiccontact" class="col-form-label">PIC Contact Number</label>
+            <h6><b>{{ project.project_in_charge_contact_number }}</b></h6>
+        </div>
     </div>
-    <div class='column'>
-        <p>Location</p>
-        <h3>{{ project.project_location }}</h3>
-
-        <p>End Date</p>
-        <h3>{{ project.end_date }}</h3>
+    <div class="form-group row">
+        <div class="col-3">
+            <label for="pstartdate" class="col-form-label">Start Date</label>
+            <h6><b>{{ project.start_date }}</b></h6>
+        </div>
+        <div class="col-3">
+            <label for="penddate" class="col-form-label">End Date</label>
+            <h6><b>{{ project.end_date }}</b></h6>
+        </div>
+        <div class="col-3">
+            <label for="pclient" class="col-form-label">Client</label>
+            <h6><b>{{ project.client }}</b></h6>
+        </div>
+        <div class="col-3">
+            <label for="pclientcontact" class="col-form-label">Client Contact Number</label>
+            <h6><b>{{ project.client_contact_number }}</b></h6>
+        </div>
+    </div>
+    <div>
+        <button type="submit" class="add mt-2 btn btn-primary">Edit Details</button>
+    </div>
+    <div class="row mt-5">
+        <div class="col pt-2"><h2 style="font-size:18px; font-weight: bold;">Workers</h2></div>
+        <div class="col text-right pb-2"><button type="submit" class="add btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPeople">Edit People</button></div>
+    </div>
+    <div class="table-responsive">
+        <table class="table" id="table">
+            <thead class>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<div class='group1'>
-    <div class='column'>
-        <p>Project-In-Charge (PIC)</p>
-        <h3>{{ project.project_in_charge }}</h3>
-
-        <p>Client</p>
-        <h3>{{ project.client }}</h3>
-    </div>
-    <div class='column'>
-        <p>PIC Contact Number</p>
-        <h3>{{ project.project_in_charge_contact_number }}</h3>
-
-        <p>Client Contact Number</p>
-        <h3>{{ project.client_contact_number }}</h3>
+<div class="modal fade" id="editPeople" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPeopleLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editPeopleLabel">Add Worker</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="input-group">
+                    <select class="custom-select" id="inputGroupSelect04">
+                        <option selected>Select a Worker</option>
+                        {% for w in workers %}
+                        <option>{{ w.first_name }} {{ w.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Select</button>
+                    </div>
+                    <img>
+                    <div class="container-fluid">
+                        <h5>First Name</h5>
+                        <p>'w.first_name'</p>
+                        <h5>Last Name</h5>
+                        <p>'w.last_name'</p>
+                    </div>
+                    <div class="row">
+                        <label for="wPosition" class="form-label">Position</label>
+                        <input type="text" class="form-control" id="wPosition">
+                    </div>
+                    <div class="row">
+                        <label for="wStartDate" class="form-label">Start Date:</label>
+                        <input type="date" class="form-control" id="wStartDate" name="wStartDate">    
+                        <label for="wEndDate" class="form-label">End Date:</label>
+                        <input type="date" class="form-control" id="wEndDate" name="wEndDate">
+                        <label for="wBasePay" class="form-label">Base Pay:</label>
+                        <input type="number" class="form-control" id="wBasePay" name="wBasePay">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-text" for="uploadContract">Upload Signed Contract</label>
+                        <input type="file" class="form-control" id="uploadContract">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-text" for="uploadContract">Upload NBI Clearance</label>
+                        <input type="file" class="form-control" id="uploadNBI">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-text" for="uploadContract">Upload Medical Report</label>
+                        <input type="file" class="form-control" id="uploadMedical">
+                    </div>
+                </div>
+                <div class="col-xs mt-3 text-end">
+                    <button type="submit" class="btn btn-primary btn-sm">Add Worker to Project</button>
+                </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>              
+        </div>
+      </div>
     </div>
 </div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 {% endblock %}

@@ -2,34 +2,41 @@
 {% load static %}
 
 {% block content %}
-<h1>Worker Profile</h1>
+<h1 style="font-size:24px; font-weight: bold;">Worker Profile</h1>
 
-<img src='{{ MEDIA_URL }}{{ worker.image }}' class='app_pic'/>
-<div class='app_details_container'>
-    <p>First Name: </p>
-    <p>{{ worker.first_name }}</p>
-</div>
-
-<div class='app_details_container'>
-    <p>Last Name: </p>
-    <p>{{ worker.last_name }}</p>
-</div>
-
-<div class='app_details_container'>
-    <p>Contact Number: </p>
-    <p>{{ worker.contact_number }}</p>
-</div>
-
-<div class="col">
-    <div class="nav-item text-right mb-2">
-        <a class="page-item" href="{% url 'delete_worker' pk=worker.worker_id %}"><b>Delete Applicant</b></a>
-    </div>
-</div>
-
-<div class="col">
-    <div class="nav-item text-right mb-2">
-        <a class="page-item" href="{% url 'update_worker' pk=worker.worker_id %}"><b>Update Applicant</b></a>
-    </div>
+<div class="container-fluid mt-3 g-2 pt-4">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="col d-flex justify-content-center"><img src="{{ MEDIA_URL }}{{ worker.image }}" class='app_pic'/></div>
+            <div class="col pt-3 d-flex justify-content-center">{{ worker.first_name }} {{ worker.last_name }}</div>
+            <div class="col pt-1 d-flex justify-content-center"><label style="color:#5F5F6E">{{ worker.contact_number }}</label></div>
+            <div class="col pt-3 d-flex justify-content-center"><button class="add btn btn-primary">Edit Profile</button></div>
+        </div>
+        <div class="col-md-10">
+            <div class="col pb-2"><h2 style="font-size:16px; font-weight: bold;">Assigned Projects</h2></div>
+            <div class="table-responsive">
+                <table class="table" id="table">
+                    <thead class>
+                        <tr>
+                            <th scope="col">Project Title</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Base Pay</th>
+                            <th scope="col">Work Period</th>
+                            <th scope="col">Project Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Project Title</td>
+                            <td>Foreman</td>
+                            <td>P 700</td>
+                            <td>05/22/22 - 06/04/22</td>
+                            <td>View</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 </div>
 
 {% endblock %}

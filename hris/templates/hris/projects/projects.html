@@ -2,44 +2,73 @@
 {% load static %}
 
 {% block content %}
-<h1>Projects</h1>
-<div class="row">
-    <div class="col">
-        Search: ______
-    </div>
-    <div class="col">
-        <div class="nav-item text-right mb-2">
-            <a class="page-item" href="{% url 'add_project' %}"><b>Add Project</b></a>
+<h1 style="font-size:24px; font-weight: bold;">Projects</h1>
+<div class="container-fluid mt-1">
+    <div class="row g-2 pt-2">
+        <div class="col" id="search-container">
+            <span class="fas fa-search"></span>
+            <input type="text" name="search" id="search" placeholder="Search">
+        </div>
+        <div class="col">
+            <div class="nav-item text-right mb-2">
+                <button onclick="window.location.href='/add_project'" class="add btn btn-primary">Add Project</button>
+                <!-- <a class="page-item" href="{% url 'add_project' %}"><b>Add Project</b></a> -->
+            </div>
         </div>
     </div>
 </div>
-<table class="table">
-    <thead class>
-        <tr>
-            <th scope="col">Project Title</th>
-            <th scope="col">Type</th>
-            <th scope="col">Location</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Client</th>
-            <th scope="col">Project-in-Charge</th>
-            <th scope="col">Details</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for p in projects %}
-        <tr>
-            <td> {{ p.project_title }} </td>
-            <td> {{ p.project_type }} </td>
-            <td> {{ p.project_location }} </td>
-            <td> {{ p.start_date }} </td>
-            <td> {{ p.end_date }} </td>
-            <td> {{ p.client }} </td>
-            <td> {{ p.project_in_charge }} </td>
-            <td><a href="{% url 'view_project_details' pk=p.pk %}">View</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+<div class="table-responsive">
+    <table class="table" id="table">
+        <thead class>
+            <tr>
+                <th scope="col">Project Title</th>
+                <th scope="col">Type</th>
+                <th scope="col">Location</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Client</th>
+                <th scope="col">Project-in-Charge</th>
+                <th scope="col">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in projects %}
+            <tr>
+                <td> {{ p.project_title }} </td>
+                <td> {{ p.project_type }} </td>
+                <td> {{ p.project_location }} </td>
+                <td> {{ p.start_date }} </td>
+                <td> {{ p.end_date }} </td>
+                <td> {{ p.client }} </td>
+                <td> {{ p.project_in_charge }} </td>
+                <td><a href="{% url 'view_project_details' pk=p.pk %}">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        var search = document.getElementById("search");
+        search.addEventListener('keyup', function(){
+            var keyword = this.value;
+            keyword = keyword.toUpperCase();
+            var table = document.getElementById('table');
+            var all_tr = table.getElementsByTagName('tr');
+            for(var i=0; i<all_tr.length; i++){
+                var all_columns = all_tr[i].getElementsByTagName("td");
+                for(j=0; j<all_columns.length; j++){
+                    if(all_columns[j]){
+                        var column_value = all_columns[j].textContent || all_columns[j].innerText;
+                        column_value = column_value.toUpperCase();
+                        if(column_value.indexOf(keyword) > -1){
+                            all_tr[i].style.display = ""; 
+                            break;
+                        }else{
+                            all_tr[i].style.display = "none"; // hide
+                        }
+                    }
+                }
+            }   
+        })
+    </script>
+</div>
 {% endblock %}

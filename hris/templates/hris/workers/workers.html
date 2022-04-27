@@ -2,24 +2,81 @@
 {% load static %}
 
 {% block content %}
-<h1>Workers</h1>
-<div class="row">
-    <div class="col">
-        Search: ______
-    </div>
-    <div class="col">
-        <div class="nav-item text-right mb-2">
-            <a class="page-item" href="{% url 'add_worker' %}"><b>Create Applicant</b></a>
+<h1 style="font-size:24px; font-weight: bold;">Workers</h1>
+<div class="container-fluid mt-1">
+    <div class="row g-2 pt-2">
+        <div class="col" id="search-container">
+            <span class="fas fa-search"></span>
+            <input type="text" name="search" id="search" placeholder="Search">
+        </div>
+        <div class="col">
+            <div class="nav-item text-right mb-2">
+                <button onclick="window.location.href='/add_worker'" class="add btn btn-primary">Create Applicant</button>
+            </div>
         </div>
     </div>
 </div>
-{% for w in workers %}
-    <div class='app_container'>
-        <a href="{% url 'worker_details' pk=w.worker_id %}">
-            <img src='{{ MEDIA_URL }}{{ w.image }}' class='app_pic'/>
-            <section class='app_name'>{{ w.first_name }} {{ w.last_name }}</section>
-        </a>
-    </div>
-{% endfor %}
 
+
+<div class="table-responsive">
+    <table class="table" id="table">
+        <thead class>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Contact Number</th>
+                <th scope="col">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for w in workers %}
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <img src="{{ MEDIA_URL }}{{ w.image }}" style="width: 30px; height: 30px" class="rounded-circle">
+                        <div class="ml-3">
+                            {{ w.first_name }} {{ w.last_name }}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="mt-1">
+                        {{ w.contact_number }}
+                    </div>
+                </td>
+                <td>
+                    <div class="mt-1">
+                        <a href="{% url 'worker_details' pk=w.worker_id %}">View</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        var search = document.getElementById("search");
+        search.addEventListener('keyup', function(){
+            var keyword = this.value;
+            keyword = keyword.toUpperCase();
+            var table = document.getElementById('table');
+            var all_tr = table.getElementsByTagName('tr');
+            for(var i=0; i<all_tr.length; i++){
+                var all_columns = all_tr[i].getElementsByTagName("td");
+                for(j=0; j<all_columns.length; j++){
+                    if(all_columns[j]){
+                        var column_value = all_columns[j].textContent || all_columns[j].innerText;
+                        column_value = column_value.toUpperCase();
+                        if(column_value.indexOf(keyword) > -1){
+                            all_tr[i].style.display = ""; 
+                            break;
+                        }else{
+                            all_tr[i].style.display = "none"; // hide
+                        }
+                    }
+                }
+            }   
+        })
+    </script>
+</div>
+
+    
 {% endblock %}

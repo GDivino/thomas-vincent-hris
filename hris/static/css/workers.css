@@ -15,3 +15,47 @@
 .app_name {
     align-self: center;
 }
+
+input {
+    margin-bottom: 10px!important;
+    font-size: 14px!important;
+}
+
+table {
+    border-collapse: collapse!important;
+    border-spacing: 0!important;
+    border-radius: 15px 15px 15px 15px!important;
+    overflow: hidden!important;
+}
+
+td , th {
+    font-size: 14px!important;
+    padding: 10px 10px!important;
+    text-align: center!important;
+    background-color: #ffffff!important;
+}
+
+th {
+    background-color: #ffffff!important;
+    color: #000000!important;
+    font-weight: bold!important;
+}
+
+td {
+    color: #5F5F6E!important;
+}
+
+.add {
+    background-color: #DCA509!important;
+    border: none!important;
+    border-radius: 8px!important;
+    padding: 3px 6px!important;
+    font-size: 14px!important;
+    transition-duration: 0.3s!important;
+  }
+
+.add:hover {
+    background-color: #ac820b!important;
+}
+
+
