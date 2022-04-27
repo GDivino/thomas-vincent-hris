@@ -10,7 +10,8 @@
             <div class="col d-flex justify-content-center"><img src="{{ MEDIA_URL }}{{ worker.image }}" class='app_pic'/></div>
             <div class="col pt-3 d-flex justify-content-center">{{ worker.first_name }} {{ worker.last_name }}</div>
             <div class="col pt-1 d-flex justify-content-center"><label style="color:#5F5F6E">{{ worker.contact_number }}</label></div>
-            <div class="col pt-3 d-flex justify-content-center"><button class="add btn btn-primary">Edit Profile</button></div>
+            <div class="col pt-3 d-flex justify-content-center"><a href="{% url 'update_worker' pk=worker.worker_id %}"><button class="add btn btn-primary">Edit Profile</button></a></div>
+            <!-- <div class="col pt-3 d-flex justify-content-center"><button onclick="window.location.href={% url 'update_worker' pk=worker.worker_id %}" class="add btn btn-primary">Edit Profile</button></div> -->
         </div>
         <div class="col-md-10">
             <div class="col pb-2"><h2 style="font-size:16px; font-weight: bold;">Assigned Projects</h2></div>
