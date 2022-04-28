@@ -1,5 +1,7 @@
 from ast import Assign
+from datetime import datetime
 from distutils.command.build_scripts import first_line_re
+from email.mime import application
 import os
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
@@ -23,7 +25,8 @@ def add_project(request):
         ppic = request.POST.get('ppic')
         ppiccontact = request.POST.get('ppiccontact')
         pstartdate = request.POST.get('pstartdate')
-        penddate = request.POST.get('penddate')     
+        penddate = request.POST.get('penddate')
+
         ProjectT.objects.create(project_title=ptitle, project_type=ptype, project_location=plocation, client=pclient, client_contact_number=pclientcontact, project_in_charge=ppic, project_in_charge_contact_number=ppiccontact, start_date=pstartdate, end_date=penddate)
         return redirect('projects')
     else:
@@ -34,6 +37,31 @@ def view_project_details(request, pk):
     worker_objects = WorkerT.objects.all()
     assigned = AssignmentT.objects.filter(project_id=pk).all()
     return render(request, 'hris/projects/view_project.html', {'project': project_details, 'workers': worker_objects, 'assigned':assigned})
+
+def update_project(request, pk):
+    project_details = get_object_or_404(ProjectT, pk=pk)
+
+    if(request.method=='POST'):
+        ptitle = request.POST.get('ptitle')
+        ptype = request.POST.get('ptype')
+        plocation = request.POST.get('plocation')
+        pclient = request.POST.get('pclient')
+        pclientcontact = request.POST.get('pclientcontact')
+        ppic = request.POST.get('ppic')
+        ppiccontact = request.POST.get('ppiccontact')
+        pstartdate = request.POST.get('pstartdate')
+        penddate = request.POST.get('penddate')
+
+        if penddate == '':
+            penddate = project_details.end_date
+        
+        if pstartdate == '':
+            pstartdate = project_details.start_date
+
+        ProjectT.objects.filter(pk=pk).update(project_title=ptitle, project_type=ptype, project_location=plocation, client=pclient, client_contact_number=pclientcontact, project_in_charge=ppic, project_in_charge_contact_number=ppiccontact, start_date=pstartdate, end_date=penddate)
+        return redirect('view_project_details', pk=pk)
+
+    return render(request, 'hris/projects/update_project.html', {'project': project_details})
 
 
 # Workers Page
@@ -128,14 +156,21 @@ def update_applicant(request, pk):
 
     if request.method == 'POST':
         fworker_id = request.POST.get('wWorkerId')
-        fposition = request.POST.get('wPosition')
-        fstart_date = request.POST.get('wStartDate')
-        fend_date = request.POST.get('wEndDate')
+        fposition = request.POST.get('role')
+        fstart_date = request.POST.get('start-date')
+        fend_date = request.POST.get('end-date')
         fbase_pay = request.POST.get('wBasePay')
         fsigned_contract = request.FILES.get('wSignedContract')
         fnbi_clearance = request.FILES.get('wNbiClearance')
         fmedical_report = request.FILES.get('wMedicalReport')
 
+        if fstart_date == '':
+            fstart_date = applicant.start_date
+        
+        if fend_date == '':
+            fend_date = applicant.end_date
+
+        AssignmentT.objects.filter(pk=pk).update(worker_id=fworker_id, role=fposition, start_date=fstart_date, end_date=fend_date, base_pay=fbase_pay)
         return redirect('view_applicant', pk=pk)
     
     return render(request, 'hris/applicants/update_applicant.html', {'applicant':applicant, 'workers':workers})

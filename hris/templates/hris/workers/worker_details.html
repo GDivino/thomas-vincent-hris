@@ -33,7 +33,7 @@
                             <td>{{ p.role }}</td>
                             <td>Php {{ p.base_pay }}</td>
                             <td>{{ p.start_date }} - {{ p.end_date }}</td>
-                            <td><a href="#">View</a></td>
+                            <td><a href="{% url 'view_project_details' pk=p.project_id %}">View</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

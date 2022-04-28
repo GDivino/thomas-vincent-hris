@@ -1,0 +1,62 @@
+{% extends 'hris/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 style="font-size:24px; font-weight: bold;">Create New Project Profile</h1>
+<div class="container-fluid mt-1 g-2 pt-4">
+  <form class="add-form" method="POST" action="{% url 'update_project' pk=project.project_id %}"> {% csrf_token %}
+    <div class="form-floating form-group row">
+        <div class="col-8">
+          <label for="ptitle" class="col-form-label">Project Title</label>
+          <input type="text" class="form-control" id="ptitle" name="ptitle" value="{{ project.project_title }}">
+        </div>
+    </div>
+    <div class="form-floating form-group row">
+        <div class="col-4">
+          <label for="ptype" class="col-form-label">Project Type</label>
+          <input type="text" class="form-control" id="ptype" name="ptype" value="{{ project.project_type }}">
+        </div>
+        <div class="col-4">
+          <label for="plocation" class="col-form-label">Location</label>
+          <input type="text" class="form-control" id="plocation" name="plocation" value="{{ project.project_location }}">
+        </div>
+    </div>
+    <div class="form-floating form-group row">
+        <div class="col-4">
+          <label for="pclient" class="col-form-label">Client</label>
+          <input type="text" class="form-control" id="pclient" name="pclient" value="{{ project.client }}">
+        </div>
+        <div class="col-4">
+          <label for="pclientcontact" class="col-form-label">Client Contact Number</label>
+          <input type="text" class="form-control" id="pclientcontact" name="pclientcontact" value="{{ project.client_contact_number }}">
+        </div>
+    </div>
+    
+    <div class="form-floating form-group row">
+        <div class="col-4">
+          <label for="ppic" class="col-form-label">Project-in-Charge (PIC)</label>
+          <input type="text" class="form-control" id="ppic" name="ppic" value="{{ project.project_in_charge }}">
+        </div>
+        <div class="col-4">
+          <label for="ppiccontact" class="col-form-label">Project-in-Charge Contact Number</label>
+          <input type="text" class="form-control" id="ppiccontact" name="ppiccontact" value="{{ project.project_in_charge_contact_number }}">
+        </div>
+    </div>
+    <div class="form-floating form-group row">
+        <div class="col-4">
+          <label for="pstartdate" class="col-form-label">Start Date</label>
+          <input type="date" class="form-control" id="pstartdate" name="pstartdate" value="{{ project.start_date }}">
+        </div>
+        <div class="col-4">
+          <label for="penddate" class="col-form-label">End Date</label>
+          <input type="date" class="form-control" id="penddate" name="penddate" value="{{ project.end_date }}">
+        </div>
+    </div>
+        <label for="button" class="col-form-label"></label>
+        <div class="col-8 text-right">
+            <button type="submit" class="create mt-3 btn btn-primary">Update Project</button>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}

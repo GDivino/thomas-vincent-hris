@@ -41,7 +41,7 @@
         </div>
     </div>
     <div>
-        <button type="submit" class="add mt-2 btn btn-primary">Edit Details</button>
+        <a href="{% url 'update_project' pk=project.project_id %}"><button class="add mt-2 btn btn-primary">Edit Details</button></a>
     </div>
     <div class="row mt-5">
         <div class="col pt-2"><h2 style="font-size:18px; font-weight: bold;">Workers</h2></div>
@@ -53,7 +53,6 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Position</th>
-                    <th scope="col">Status</th>
                     <th scope="col">Details</th>
                 </tr>
             </thead>
@@ -62,7 +61,6 @@
                 <tr>
                     <td>{{ a.aworker.first_name }} {{ a.aworker.last_name }}</td>
                     <td>{{ a.role }}</td>
-                    <td></td>
                     <td><a href="{% url 'view_applicant' pk=a.assignment_id %}">View</a></td>
                 </tr>
                 {% endfor %}
