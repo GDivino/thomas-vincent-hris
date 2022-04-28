@@ -1,3 +1,4 @@
+from ast import Assign
 from distutils.command.build_scripts import first_line_re
 import os
 from django.shortcuts import get_object_or_404, render, redirect
@@ -31,7 +32,8 @@ def add_project(request):
 def view_project_details(request, pk):
     project_details = get_object_or_404(ProjectT, pk=pk)
     worker_objects = WorkerT.objects.all()
-    return render(request, 'hris/projects/view_project.html', {'project': project_details, 'workers': worker_objects})
+    assigned = AssignmentT.objects.filter(project_id=pk).all()
+    return render(request, 'hris/projects/view_project.html', {'project': project_details, 'workers': worker_objects, 'assigned':assigned})
 
 
 # Workers Page
@@ -53,7 +55,8 @@ def add_worker(request):
 
 def worker_details(request, pk):
     worker = get_object_or_404(WorkerT, pk=pk)
-    return render(request, 'hris/workers/worker_details.html', {'worker': worker})
+    projects = AssignmentT.objects.filter(worker_id=pk).all()
+    return render(request, 'hris/workers/worker_details.html', {'worker': worker, 'projects': projects})
 
 def delete_worker(request, pk):
     worker = get_object_or_404(WorkerT, pk=pk)
@@ -86,9 +89,59 @@ def update_worker(request, pk):
             worker_details.save()
         
         WorkerT.objects.filter(pk=pk).update(first_name=ffirst_name, last_name=flast_name, contact_number=fcontact_number)
-        worker = get_object_or_404(WorkerT, pk=pk)
-        # return render(request, 'hris/workers/update_worker.html', {'worker': worker})
         return redirect('worker_details', pk=pk)
     else:
         worker = get_object_or_404(WorkerT, pk=pk)
         return render(request, 'hris/workers/update_worker.html', {'worker': worker})
+
+
+# Applicant Feature
+def add_applicant(request, project_pk):
+    if request.method == 'POST':
+        fworker_id = request.POST.get('wWorkerId')
+        fposition = request.POST.get('wPosition')
+        fstart_date = request.POST.get('wStartDate')
+        fend_date = request.POST.get('wEndDate')
+        fbase_pay = request.POST.get('wBasePay')
+        fsigned_contract = request.FILES.get('wSignedContract')
+        fnbi_clearance = request.FILES.get('wNbiClearance')
+        fmedical_report = request.FILES.get('wMedicalReport')
+
+        worker = WorkerT.objects.get(worker_id=fworker_id)
+        project = ProjectT.objects.get(project_id=project_pk)
+
+        if AssignmentT.objects.filter(worker_id=fworker_id, project_id=project_pk).exists() == True:
+            messages.error(request, 'Applicant already exists')
+        else:
+            AssignmentT.objects.create(worker_id=fworker_id, project_id=project_pk, role=fposition, base_pay=fbase_pay, start_date=fstart_date, end_date=fend_date, medical_report=fmedical_report, nbi_clearance=fnbi_clearance, contract=fsigned_contract, aworker=worker, aproject=project)
+            return redirect('view_project_details', pk=project_pk)
+
+    return redirect('view_project_details', pk=project_pk)
+
+def view_applicant(request, pk):
+    applicant = get_object_or_404(AssignmentT, pk=pk)
+    return render(request, 'hris/applicants/view_applicant.html', {'applicant':applicant})
+
+def update_applicant(request, pk):
+    applicant = get_object_or_404(AssignmentT, pk=pk)
+    workers = WorkerT.objects.all()
+
+    if request.method == 'POST':
+        fworker_id = request.POST.get('wWorkerId')
+        fposition = request.POST.get('wPosition')
+        fstart_date = request.POST.get('wStartDate')
+        fend_date = request.POST.get('wEndDate')
+        fbase_pay = request.POST.get('wBasePay')
+        fsigned_contract = request.FILES.get('wSignedContract')
+        fnbi_clearance = request.FILES.get('wNbiClearance')
+        fmedical_report = request.FILES.get('wMedicalReport')
+
+        return redirect('view_applicant', pk=pk)
+    
+    return render(request, 'hris/applicants/update_applicant.html', {'applicant':applicant, 'workers':workers})
+
+def unassign_applicant(request, pk):
+    applicant = get_object_or_404(AssignmentT, pk=pk)
+
+    AssignmentT.objects.filter(pk=pk).delete()
+    return redirect('view_project_details', pk=applicant.project_id)

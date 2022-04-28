@@ -27,13 +27,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for p in projects %}
                         <tr>
-                            <td>Project Title</td>
-                            <td>Foreman</td>
-                            <td>P 700</td>
-                            <td>05/22/22 - 06/04/22</td>
-                            <td>View</td>
+                            <td>{{ p.aproject.project_title }}</td>
+                            <td>{{ p.role }}</td>
+                            <td>Php {{ p.base_pay }}</td>
+                            <td>{{ p.start_date }} - {{ p.end_date }}</td>
+                            <td><a href="#">View</a></td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

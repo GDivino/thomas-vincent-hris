@@ -1,0 +1,23 @@
+{% extends 'hris/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'view_project_details' pk=applicant.project_id %}"><button class="btn-secondary">Back</button></a>
+    <div class="card-body">
+        <h1 class="card-title">{{ applicant.aproject.project_title }} Worker</h1>
+        <p class="card-text">Name: </p>
+        <p class="card-text">{{ applicant.aworker.first_name }} {{ applicant.aworker.last_name }}</p>
+        <p class="card-text">Position: </p>
+        <p class="card-text">{{ applicant.role }}</p>
+        <p class="card-text">Contract Date: </p>
+        <p class="card-text">{{ applicant.start_date }} - {{ applicant.end_date }}</p>
+        <div class="col-8 text-right">
+            <a href="{% url 'update_applicant' pk=applicant.assignment_id %}"><button class="create mt-3 btn btn-primary">Update Worker</button></a>
+        </div>
+        <div class="col-8 text-right">
+            <a href="{% url 'unassign_applicant' pk=applicant.assignment_id %}"><button class="mt-3 btn btn-danger">Unassign Worker</button></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

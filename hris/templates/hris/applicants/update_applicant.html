@@ -1,0 +1,42 @@
+{% extends 'hris/base.html' %}
+{% load static %}
+
+{% block content %}
+<form class="card" method="POST" action="{% url 'update_applicant' pk=applicant.assignment_id %}" enctype="multipart/form-data"> {% csrf_token %}
+    <a href="{% url 'view_project_details' pk=applicant.project_id %}"><button class="btn-secondary">Back</button></a>
+    <div class="card-body">
+        <h1 class="card-title">{{ applicant.aproject.project_title }} Worker</h1>
+        <select class="custom-select" id="worker-select" name='wWorkerId'>
+            <option>Select a Worker</option>
+            {% for w in workers %}
+                {% if w.worker_id == applicant.aworker_id %}
+                <option value='{{w.worker_id}}' selected>{{ w.first_name }} {{ w.last_name }}</option>
+                {% else %}
+                <option value='{{w.worker_id}}'>{{ w.first_name }} {{ w.last_name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <p class="card-text">Position: </p>
+        <input class="card-text" name="role" type="text" value="{{ applicant.role }}">
+        <p class="card-text">Start Date: </p>
+        <input class="card-text" name="start-date" type="date" type="date">
+        <p class="card-text">End Date: </p>
+        <input class="card-text" name="end-date" type="date" type="date">
+        <div class="input-group">
+            <label class="input-group-text" for="uploadContract">Upload Signed Contract</label>
+            <input type="file" class="form-control" id="uploadContract" name="wSignedContract">
+        </div>
+        <div class="input-group">
+            <label class="input-group-text" for="uploadContract">Upload NBI Clearance</label>
+            <input type="file" class="form-control" id="uploadNBI" name="wNbiClearance">
+        </div>
+        <div class="input-group">
+            <label class="input-group-text" for="uploadContract">Upload Medical Report</label>
+            <input type="file" class="form-control" id="uploadMedical" name="wMedicalReport">
+        </div>
+        <div class="col-8 text-right">
+            <button class="create mt-3 btn btn-primary" type="submit">Update Assigned Worker</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

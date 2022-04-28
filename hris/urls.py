@@ -13,5 +13,10 @@ urlpatterns = [
     path('add_worker', views.add_worker, name='add_worker'),
     path('worker_details/<int:pk>', views.worker_details, name='worker_details'),
     path('delete_worker/<int:pk>', views.delete_worker, name='delete_worker'),
-    path('update_worker/<int:pk>', views.update_worker, name='update_worker')
+    path('update_worker/<int:pk>', views.update_worker, name='update_worker'),
+
+    path('add_applicant/<int:project_pk>', views.add_applicant, name='add_applicant'),
+    path('view_applicant/<int:pk>', views.view_applicant, name='view_applicant'),
+    path('update_applicant/<int:pk>', views.update_applicant, name='update_applicant'),
+    path('unassign_applicant/<int:pk>', views.unassign_applicant, name='unassign_applicant')
 ]

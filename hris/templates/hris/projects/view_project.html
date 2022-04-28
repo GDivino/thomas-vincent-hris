@@ -58,12 +58,14 @@
                 </tr>
             </thead>
             <tbody>
+                {% for a in assigned %}
                 <tr>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
+                    <td>{{ a.aworker.first_name }} {{ a.aworker.last_name }}</td>
+                    <td>{{ a.role }}</td>
+                    <td></td>
+                    <td><a href="{% url 'view_applicant' pk=a.assignment_id %}">View</a></td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
@@ -77,27 +79,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form>
+            <form method="POST" action="{% url 'add_applicant' project_pk=project.project_id %}" enctype="multipart/form-data"> {% csrf_token %}
                 <div class="input-group">
-                    <select class="custom-select" id="inputGroupSelect04">
+                    <select class="custom-select" id="worker-select" name='wWorkerId'>
                         <option selected>Select a Worker</option>
                         {% for w in workers %}
-                        <option>{{ w.first_name }} {{ w.last_name }}</option>
+                        <option value='{{w.worker_id}}'>{{ w.first_name }} {{ w.last_name }}</option>
                         {% endfor %}
                     </select>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Select</button>
-                    </div>
                     <img>
-                    <div class="container-fluid">
-                        <h5>First Name</h5>
-                        <p>'w.first_name'</p>
-                        <h5>Last Name</h5>
-                        <p>'w.last_name'</p>
-                    </div>
                     <div class="row">
                         <label for="wPosition" class="form-label">Position</label>
-                        <input type="text" class="form-control" id="wPosition">
+                        <input type="text" class="form-control" id="wPosition" name='wPosition'>
                     </div>
                     <div class="row">
                         <label for="wStartDate" class="form-label">Start Date:</label>
@@ -109,21 +102,21 @@
                     </div>
                     <div class="input-group">
                         <label class="input-group-text" for="uploadContract">Upload Signed Contract</label>
-                        <input type="file" class="form-control" id="uploadContract">
+                        <input type="file" class="form-control" id="uploadContract" name="wSignedContract">
                     </div>
                     <div class="input-group">
                         <label class="input-group-text" for="uploadContract">Upload NBI Clearance</label>
-                        <input type="file" class="form-control" id="uploadNBI">
+                        <input type="file" class="form-control" id="uploadNBI" name="wNbiClearance">
                     </div>
                     <div class="input-group">
                         <label class="input-group-text" for="uploadContract">Upload Medical Report</label>
-                        <input type="file" class="form-control" id="uploadMedical">
+                        <input type="file" class="form-control" id="uploadMedical" name="wMedicalReport">
                     </div>
                 </div>
                 <div class="col-xs mt-3 text-end">
                     <button type="submit" class="btn btn-primary btn-sm">Add Worker to Project</button>
                 </div>
-              </form>
+            </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>              

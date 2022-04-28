@@ -1,4 +1,5 @@
 from distutils.command.upload import upload
+from tkinter import CASCADE
 from django.db import models
 
 # This is an auto-generated Django model module.
@@ -16,15 +17,15 @@ class AssignmentT(models.Model):
     worker_id = models.IntegerField(blank=True, null=True)
     project_id = models.IntegerField(blank=True, null=True)
     role = models.CharField(max_length=30, blank=True, null=True)
-    base_pay = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    base_pay = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     biodata = models.TextField()
     medical_report = models.TextField(blank=True, null=True)
     nbi_clearance = models.TextField(blank=True, null=True)
     contract = models.TextField(blank=True, null=True)
-    aworker = models.ForeignKey('WorkerT', models.DO_NOTHING, blank=True, null=True)
-    aproject = models.ForeignKey('ProjectT', models.DO_NOTHING, blank=True, null=True)
+    aworker = models.ForeignKey('WorkerT', models.CASCADE, blank=True, null=True)
+    aproject = models.ForeignKey('ProjectT', models.CASCADE, blank=True, null=True)
 
     class Meta:
         managed = True
