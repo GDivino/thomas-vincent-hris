@@ -1,11 +1,28 @@
-from ast import Assign
-from datetime import datetime
 from distutils.command.build_scripts import first_line_re
-from email.mime import application
 import os
+from time import strftime
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .models import UserT, WorkerT, ProjectT, AssignmentT, EvaluationReportT
+
+# helper functions
+def fileCheckUpload(upload, existing, db, pk):
+    if upload == None: # if no file upload
+            upload = existing
+    else: # if there's a file upload
+        if existing: # if file exists already
+            os.remove(existing.path)
+
+        worker_details = db.objects.get(pk=pk)
+        worker_details.image = upload
+        worker_details.save()
+
+def fileCheckDelete(file):
+    if file:
+        path = file.path
+        if os.path.exists(path):
+            os.remove(path)
+
 
 def dashboard(request):
     return render(request, 'hris/dashboard.html')
@@ -61,6 +78,9 @@ def update_project(request, pk):
         ProjectT.objects.filter(pk=pk).update(project_title=ptitle, project_type=ptype, project_location=plocation, client=pclient, client_contact_number=pclientcontact, project_in_charge=ppic, project_in_charge_contact_number=ppiccontact, start_date=pstartdate, end_date=penddate)
         return redirect('view_project_details', pk=pk)
 
+    project_details.start_date = str(project_details.start_date)
+    project_details.end_date = str(project_details.end_date)
+
     return render(request, 'hris/projects/update_project.html', {'project': project_details})
 
 
@@ -89,38 +109,25 @@ def worker_details(request, pk):
 def delete_worker(request, pk):
     worker = get_object_or_404(WorkerT, pk=pk)
 
-    if worker.image:
-        worker_img = worker.image.path
-        if os.path.exists(worker_img):
-            os.remove(worker_img)
+    fileCheckDelete(worker.image)
     
     WorkerT.objects.filter(pk=pk).delete()
     return redirect('workers')
 
 def update_worker(request, pk):
+    worker = get_object_or_404(WorkerT, pk=pk)
     if request.method == 'POST':
         ffirst_name = request.POST.get('first_name')
         flast_name = request.POST.get('last_name')
         fcontact_number = request.POST.get('contact')
         fimage = request.FILES.get('image')
 
-        worker = get_object_or_404(WorkerT, pk=pk)
-
-        if fimage == None:
-            fimage = worker.image
-        else:
-            if worker.image:
-                os.remove(worker.image.path)
-
-            worker_details = WorkerT.objects.get(pk=pk)
-            worker_details.image = fimage
-            worker_details.save()
+        fileCheckUpload(fimage, worker.image, WorkerT, pk)
         
         WorkerT.objects.filter(pk=pk).update(first_name=ffirst_name, last_name=flast_name, contact_number=fcontact_number)
         return redirect('worker_details', pk=pk)
-    else:
-        worker = get_object_or_404(WorkerT, pk=pk)
-        return render(request, 'hris/workers/update_worker.html', {'worker': worker})
+
+    return render(request, 'hris/workers/update_worker.html', {'worker': worker})
 
 
 # Applicant Feature
@@ -164,19 +171,30 @@ def update_applicant(request, pk):
         fnbi_clearance = request.FILES.get('wNbiClearance')
         fmedical_report = request.FILES.get('wMedicalReport')
 
+        fileCheckUpload(fsigned_contract, applicant.contract, AssignmentT, pk)
+        fileCheckUpload(fnbi_clearance, applicant.nbi_clearance, AssignmentT, pk)
+        fileCheckUpload(fmedical_report, applicant.medical_report, AssignmentT, pk)
+
         if fstart_date == '':
             fstart_date = applicant.start_date
         
         if fend_date == '':
             fend_date = applicant.end_date
 
-        AssignmentT.objects.filter(pk=pk).update(worker_id=fworker_id, role=fposition, start_date=fstart_date, end_date=fend_date, base_pay=fbase_pay)
+        AssignmentT.objects.filter(pk=pk).update(worker_id=fworker_id, role=fposition, start_date=fstart_date, end_date=fend_date, base_pay=fbase_pay, medical_report=fmedical_report, nbi_clearance=fnbi_clearance, contract=fsigned_contract)
         return redirect('view_applicant', pk=pk)
+    
+    applicant.start_date = str(applicant.start_date)
+    applicant.end_date = str(applicant.end_date)
     
     return render(request, 'hris/applicants/update_applicant.html', {'applicant':applicant, 'workers':workers})
 
 def unassign_applicant(request, pk):
     applicant = get_object_or_404(AssignmentT, pk=pk)
+
+    fileCheckDelete(applicant.contract)
+    fileCheckDelete(applicant.nbi_clearance)
+    fileCheckDelete(applicant.medical_report)
 
     AssignmentT.objects.filter(pk=pk).delete()
     return redirect('view_project_details', pk=applicant.project_id)

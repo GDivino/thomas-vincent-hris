@@ -19,9 +19,9 @@
         <p class="card-text">Position: </p>
         <input class="card-text" name="role" type="text" value="{{ applicant.role }}">
         <p class="card-text">Start Date: </p>
-        <input class="card-text" name="start-date" type="date" type="date">
+        <input class="card-text" name="start-date" type="date" type="date" value="{{ applicant.start_date }}">
         <p class="card-text">End Date: </p>
-        <input class="card-text" name="end-date" type="date" type="date">
+        <input class="card-text" name="end-date" type="date" type="date" value="{{ applicant.end_date }}">
         <div class="input-group">
             <label class="input-group-text" for="uploadContract">Upload Signed Contract</label>
             <input type="file" class="form-control" id="uploadContract" name="wSignedContract">
