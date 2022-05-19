@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.dashboard, name='dashboard'),
+    path('', views.redirect_home, name='redirect_home'),
 
     path('projects', views.projects, name='projects'),
     path('add_project', views.add_project, name='add_project'),
@@ -19,5 +19,10 @@ urlpatterns = [
     path('add_applicant/<int:project_pk>', views.add_applicant, name='add_applicant'),
     path('view_applicant/<int:pk>', views.view_applicant, name='view_applicant'),
     path('update_applicant/<int:pk>', views.update_applicant, name='update_applicant'),
-    path('unassign_applicant/<int:pk>', views.unassign_applicant, name='unassign_applicant')
+    path('unassign_applicant/<int:pk>', views.unassign_applicant, name='unassign_applicant'),
+
+    path('users', views.users, name='users'),
+    path('add_users', views.add_users, name='add_users'),
+    path('login', views.login, name='login'),
+    path('logout', views.logout, name='logout')
 ]

@@ -71,7 +71,7 @@ class UserT(models.Model):
     name = models.CharField(max_length=50)
     user_type = models.CharField(max_length=10)
     username = models.CharField(max_length=30)
-    password = models.CharField(max_length=30)
+    password = models.CharField(max_length=10000)
 
     class Meta:
         managed = True

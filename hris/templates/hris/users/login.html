@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TVCI Human Resources Infosystem</title>
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=DM Sans'>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="{% static '/css/base.css' %}">
+    <link rel="stylesheet" href="{% static '/css/projects.css' %}">
+    <link rel="stylesheet" href="{% static '/css/login.css' %}">
+    <link rel="stylesheet" href="{% static '/css/applicants.css' %}">
+    <link rel="stylesheet" href="{% static '/css/workers.css' %}">  
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+  
+</head>
+<h1>Login</h1>
+<div>
+    <form class="add-form" method="POST" action="{% url 'login' %}"> {% csrf_token %}
+        <div class="form-group row">
+          <label for="ptitle" class="col-form-label">Username:</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="u_username" name="uname">
+          </div>
+        </div>
+        <div class="form-group row">
+            <label for="ptitle" class="col-form-label">Password:</label>
+            <div class="col-sm-7">
+                <input type="password" class="form-control" id="u_password" name="pw">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="button" class="col-form-label"></label>
+            <div class="col-sm-7 text-right">
+                <button type="submit" class="mt-3 btn btn-outline-secondary">Log in</button>
+            </div>
+        </div>
+    </form>
+</div>
+</html>
