@@ -44,15 +44,14 @@
         <a href="{% url 'update_project' pk=project.project_id %}"><button class="add mt-2 btn btn-primary">Edit Details</button></a>
     </div>
     <div class="row mt-5">
-        <div class="col pt-2"><h2 style="font-size:18px; font-weight: bold;">Workers</h2></div>
-        <div class="col text-right pb-2"><button type="submit" class="add btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPeople">Edit People</button></div>
+        <div class="col pt-2"><h2 style="font-size:18px; font-weight: bold;">Workers</h2></div>        
     </div>
     <div class="table-responsive">
         <table class="table" id="table">
             <thead class>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Position</th>
+                    <th scope="col">Role</th>
                     <th scope="col">Details</th>
                 </tr>
             </thead>
@@ -66,6 +65,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="col pb-2"><button type="submit" class="add btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPeople">Add Worker</button></div>
     </div>
 </div>
 
@@ -87,8 +87,8 @@
                     </select>
                     <img>
                     <div class="row">
-                        <label for="wPosition" class="form-label">Position</label>
-                        <input type="text" class="form-control" id="wPosition" name='wPosition'>
+                        <label for="wRole" class="form-label">Role</label>
+                        <input type="text" class="form-control" id="wRole" name='wRole'>
                     </div>
                     <div class="row">
                         <label for="wStartDate" class="form-label">Start Date:</label>

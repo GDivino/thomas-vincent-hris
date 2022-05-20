@@ -34,7 +34,7 @@ class AssignmentT(models.Model):
 
 class EvaluationReportT(models.Model):
     eval_id = models.AutoField(primary_key=True)
-    overall_rating = models.DecimalField(max_digits=2, decimal_places=2, blank=True, null=True)
+    overall_rating = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     worker_strength = models.CharField(max_length=180, blank=True, null=True)
     areas_of_improvement = models.CharField(max_length=180, blank=True, null=True)
     plan_of_action = models.CharField(max_length=180, blank=True, null=True)

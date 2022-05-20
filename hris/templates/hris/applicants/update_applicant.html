@@ -16,8 +16,10 @@
                 {% endif %}
             {% endfor %}
         </select>
-        <p class="card-text">Position: </p>
+        <p class="card-text">Role: </p>
         <input class="card-text" name="role" type="text" value="{{ applicant.role }}">
+        <p class="card-text">Base Pay: </p>
+        <input class="card-text" name="wBasePay" type="text" value="{{ applicant.base_pay }}">
         <p class="card-text">Start Date: </p>
         <input class="card-text" name="start-date" type="date" type="date" value="{{ applicant.start_date }}">
         <p class="card-text">End Date: </p>

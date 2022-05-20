@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from .models import UserT, WorkerT, ProjectT, AssignmentT, EvaluationReportT
 from django.contrib.sessions.models import Session
 
-Session.objects.all().delete()
+# Session.objects.all().delete()
 
 # helper functions
 def fileCheckUpload(upload, existing, db, pk):
@@ -68,6 +68,10 @@ def view_project_details(request, pk):
     user = auth(request)
     if user == False:
         return redirect('login')
+
+    # if request.method == 'POST':
+    #     status = request.POST.get('<name of status in html>')
+    # ProjectT.objects.filter(pk=pk).update(status=status)
     
     project_details = get_object_or_404(ProjectT, pk=pk)
     worker_objects = WorkerT.objects.all()
@@ -181,7 +185,7 @@ def add_applicant(request, project_pk):
 
     if request.method == 'POST':
         fworker_id = request.POST.get('wWorkerId')
-        fposition = request.POST.get('wPosition')
+        fposition = request.POST.get('wRole')
         fstart_date = request.POST.get('wStartDate')
         fend_date = request.POST.get('wEndDate')
         fbase_pay = request.POST.get('wBasePay')
@@ -201,12 +205,18 @@ def add_applicant(request, project_pk):
     return redirect('view_project_details', pk=project_pk)
 
 def view_applicant(request, pk):
+    eval = None
+
     user = auth(request)
     if user == False:
         return redirect('login')
 
     applicant = get_object_or_404(AssignmentT, pk=pk)
-    return render(request, 'hris/applicants/view_applicant.html', {'applicant':applicant, 'user': user})
+
+    if EvaluationReportT.objects.filter(eassignment=pk).exists():
+        eval = EvaluationReportT.objects.get(eassignment=pk)
+    
+    return render(request, 'hris/applicants/view_applicant.html', {'applicant':applicant, 'user': user, 'eval': eval})
 
 def update_applicant(request, pk):
     user = auth(request)
@@ -258,6 +268,56 @@ def unassign_applicant(request, pk):
     AssignmentT.objects.filter(pk=pk).delete()
     return redirect('view_project_details', pk=applicant.project_id)
 
+def add_eval(request, applicant_pk):
+    user = auth(request)
+    if user == False:
+        return redirect('login')
+
+    worker = AssignmentT.objects.get(assignment_id=applicant_pk)
+
+    if request.method == 'POST':
+        worker_strength = request.POST.get('worker_strength')
+        aoi = request.POST.get('aoi')
+        poa = request.POST.get('poa')
+        kow = request.POST.get('kow')
+        attendance = request.POST.get('attendance')
+        voo = request.POST.get('voo')
+        attitude = request.POST.get('attitude')
+        eassignment = worker
+        overall_rating = (int(kow) + int(attendance) + int(voo) + int(attitude)) / 4
+
+        EvaluationReportT.objects.create(overall_rating=overall_rating, worker_strength=worker_strength, areas_of_improvement=aoi, plan_of_action=poa, knowledge_of_work=kow, attendance=attendance, volume_of_output=voo, attitude=attitude, eassignment=eassignment)
+
+        return redirect('view_applicant', pk=applicant_pk)
+    
+    if EvaluationReportT.objects.filter(eassignment=applicant_pk).exists():
+        return redirect('view_applicant', pk=applicant_pk)
+
+    return render(request, 'hris/applicants/add_eval.html', {'user': user, 'worker': worker})
+
+def update_eval(request, pk):
+    user = auth(request)
+    if user == False:
+        return redirect('login')
+    
+    eval = EvaluationReportT.objects.get(eval_id=pk)
+    
+    if request.method == 'POST':
+        worker_strength = request.POST.get('worker_strength')
+        aoi = request.POST.get('aoi')
+        poa = request.POST.get('poa')
+        kow = request.POST.get('kow')
+        attendance = request.POST.get('attendance')
+        voo = request.POST.get('voo')
+        attitude = request.POST.get('attitude')
+        overall_rating = (int(kow) + int(attendance) + int(voo) + int(attitude)) / 4
+    
+        EvaluationReportT.objects.filter(eval_id=pk).update(overall_rating=overall_rating, worker_strength=worker_strength, areas_of_improvement=aoi, plan_of_action=poa, knowledge_of_work=kow, attendance=attendance, volume_of_output=voo, attitude=attitude)
+        print(eval.eassignment.assignment_id)
+
+        return redirect('view_applicant', pk=eval.eassignment.assignment_id)
+    
+    return render(request, 'hris/applicants/update_eval.html', {'eval': eval})
 
 
 # User function

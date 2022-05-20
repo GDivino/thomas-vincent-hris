@@ -1,0 +1,11 @@
+#eval-report {
+    margin-top: 10%;
+}
+
+#container {
+    height: 100vh;
+}
+
+#main-page {
+    overflow-y: scroll;
+}

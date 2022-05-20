@@ -1,0 +1,52 @@
+{% extends 'hris/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 style="font-size:24px; font-weight: bold;">Evaluation Report for {{ worker.aworker.first_name }} {{ worker.aworker.last_name }}</h1>
+<div class="container-fluid mt-1 g-2 pt-4">
+  <form class="add-form" method="POST" action="{% url 'update_eval' pk=eval.eval_id %}"> {% csrf_token %}
+    <div class="form-floating form-group row">
+        <div class="col-4">
+          <label for="ptype" class="col-form-label">Worker Strength</label>
+          <input type="text" class="form-control" id="ptype" name="worker_strength" value="{{ eval.worker_strength }}">
+        </div>
+        <div class="col-4">
+          <label for="plocation" class="col-form-label">Areas of Improvement</label>
+          <input type="text" class="form-control" id="plocation" name="aoi" value="{{ eval.areas_of_improvement }}">
+        </div>
+    </div>
+    <div class="form-floating form-group row">
+        <div class="col-4">
+          <label for="pclient" class="col-form-label">Plan of Action</label>
+          <input type="text" class="form-control" id="pclient" name="poa" value="{{ eval.plan_of_action }}">
+        </div>
+        <div class="col-4">
+          <label for="pclientcontact" class="col-form-label">Knowledge of Work</label>
+          <input type="number" class="form-control" id="pclientcontact" name="kow" value="{{ eval.knowledge_of_work }}">
+        </div>
+    </div>
+    
+    <div class="form-floating form-group row">
+        <div class="col-4">
+          <label for="ppic" class="col-form-label">Attendance</label>
+          <input type="number" class="form-control" id="ppic" name="attendance" value="{{ eval.attendance }}">
+        </div>
+        <div class="col-4">
+          <label for="ppiccontact" class="col-form-label">Volume of Output</label>
+          <input type="number" class="form-control" id="ppiccontact" name="voo" value="{{ eval.volume_of_output }}">
+        </div>
+    </div>
+    <div class="form-floating form-group row">
+        <div class="col-4">
+          <label for="pstartdate" class="col-form-label">Attitude</label>
+          <input type="number" class="form-control" id="pstartdate" name="attitude" value="{{ eval.attitude }}">
+        </div>
+    </div>
+        <label for="button" class="col-form-label"></label>
+        <div class="col-8 text-right">
+            <button type="submit" class="create mt-3 btn btn-primary">Update Evaluation Report</button>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}

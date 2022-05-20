@@ -20,6 +20,8 @@ urlpatterns = [
     path('view_applicant/<int:pk>', views.view_applicant, name='view_applicant'),
     path('update_applicant/<int:pk>', views.update_applicant, name='update_applicant'),
     path('unassign_applicant/<int:pk>', views.unassign_applicant, name='unassign_applicant'),
+    path('add_eval/<int:applicant_pk>', views.add_eval, name='add_eval'),
+    path('update_eval/<int:pk>', views.update_eval, name='update_eval'),
 
     path('users', views.users, name='users'),
     path('add_users', views.add_users, name='add_users'),

@@ -8,8 +8,10 @@
         <h1 class="card-title">{{ applicant.aproject.project_title }} Worker</h1>
         <p class="card-text">Name: </p>
         <p class="card-text">{{ applicant.aworker.first_name }} {{ applicant.aworker.last_name }}</p>
-        <p class="card-text">Position: </p>
+        <p class="card-text">Role: </p>
         <p class="card-text">{{ applicant.role }}</p>
+        <p class="card-text">Base Pay: </p>
+        <p class="card-text">{{ applicant.base_pay }}</p>
         <p class="card-text">Contract Date: </p>
         <p class="card-text">{{ applicant.start_date }} - {{ applicant.end_date }}</p>
         <div class="col-8 text-right">
@@ -18,6 +20,39 @@
         <div class="col-8 text-right">
             <a href="{% url 'unassign_applicant' pk=applicant.assignment_id %}"><button class="mt-3 btn btn-danger">Unassign Worker</button></a>
         </div>
+    </div>
+</div>
+<div class="card" id="eval-report">
+    <div class="card-body">
+        <h1 class="card-title">Evaluation Report</h1>
+        {% if eval %}
+            <p class="card-text">Overall Rating: </p>
+            <p class="card-text">{{ eval.overall_rating }}</p>
+            <p class="card-text">Worker Strength: </p>
+            <p class="card-text">{{ eval.worker_strength }}</p>
+            <p class="card-text">Areas of Improvement: </p>
+            <p class="card-text">{{ eval.areas_of_improvement }}</p>
+            <p class="card-text">Plan of Action: </p>
+            <p class="card-text">{{ eval.plan_of_action }}</p>
+            <p class="card-text">Knowledge of Work: </p>
+            <p class="card-text">{{ eval.knowledge_of_work }}</p>
+            <p class="card-text">Attendance: </p>
+            <p class="card-text">{{ eval.attendance }}</p>
+            <p class="card-text">Volume of Output: </p>
+            <p class="card-text">{{ eval.volume_of_output }}</p>
+            <p class="card-text">Attitude: </p>
+            <p class="card-text">{{ eval.attitude }}</p>
+        {% else %}
+            <p>No Eval</p>
+        {% endif %}
+        <div class="col-8 text-right">
+            <a href="{% url 'add_eval' applicant_pk=applicant.assignment_id %}"><button class="create mt-3 btn btn-primary">Add Evaluation</button></a>
+        </div>
+        {% if eval %}
+            <div class="col-8 text-right">
+                <a href="{% url 'update_eval' pk=eval.eval_id %}"><button class="create mt-3 btn btn-primary">Update Evaluation</button></a>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
