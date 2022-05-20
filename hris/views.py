@@ -1,10 +1,11 @@
-from distutils.command.build_scripts import first_line_re
 import os
-from time import strftime
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password, make_password
 from .models import UserT, WorkerT, ProjectT, AssignmentT, EvaluationReportT
+from django.contrib.sessions.models import Session
+
+Session.objects.all().delete()
 
 # helper functions
 def fileCheckUpload(upload, existing, db, pk):
@@ -299,5 +300,9 @@ def login(request):
     return render(request, 'hris/users/login.html')
 
 def logout(request):
-    del request.session['authenticated']
+    try: 
+        del request.session['authenticated']
+    except:
+        pass
+
     return redirect('login')
