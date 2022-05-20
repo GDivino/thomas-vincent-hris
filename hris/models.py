@@ -51,6 +51,7 @@ class EvaluationReportT(models.Model):
 
 class ProjectT(models.Model):
     project_id = models.AutoField(primary_key=True)
+    status = models.BooleanField(blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     project_title = models.CharField(max_length=50)

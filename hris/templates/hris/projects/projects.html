@@ -24,9 +24,7 @@
                 <th scope="col">Project Title</th>
                 <th scope="col">Type</th>
                 <th scope="col">Location</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Client</th>
+                <th scope="col">Status</th>
                 <th scope="col">Project-in-Charge</th>
                 <th scope="col">Details</th>
             </tr>
@@ -37,9 +35,11 @@
                 <td> {{ p.project_title }} </td>
                 <td> {{ p.project_type }} </td>
                 <td> {{ p.project_location }} </td>
-                <td> {{ p.start_date }} </td>
-                <td> {{ p.end_date }} </td>
-                <td> {{ p.client }} </td>
+                {% if p.status %}
+                    <td> Ongoing </td>
+                {% else %}
+                    <td> Archived </td>
+                {% endif %}
                 <td> {{ p.project_in_charge }} </td>
                 <td><a href="{% url 'view_project_details' pk=p.pk %}">View</a></td>
             </tr>

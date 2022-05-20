@@ -11,6 +11,14 @@
           <input type="text" class="form-control" id="ptitle" name="ptitle" value="{{ project.project_title }}">
         </div>
     </div>
+    <div class="col-4">
+      <label for="ptitle" class="col-form-label">Project Status</label>
+      {% if project.status == True %}
+        <input type="checkbox" id="ptitle" name="pstatus" value="True" checked>
+      {% else %}
+        <input type="checkbox" id="ptitle" name="pstatus" value="True">
+      {% endif %}
+    </div>
     <div class="form-floating form-group row">
         <div class="col-4">
           <label for="ptype" class="col-form-label">Project Type</label>

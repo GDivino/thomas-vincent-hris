@@ -50,6 +50,7 @@ def add_project(request):
 
     if(request.method=='POST'):
         ptitle = request.POST.get('ptitle')
+        pstatus = request.POST.get('pstatus')
         ptype = request.POST.get('ptype')
         plocation = request.POST.get('plocation')
         pclient = request.POST.get('pclient')
@@ -59,7 +60,7 @@ def add_project(request):
         pstartdate = request.POST.get('pstartdate')
         penddate = request.POST.get('penddate')
 
-        ProjectT.objects.create(project_title=ptitle, project_type=ptype, project_location=plocation, client=pclient, client_contact_number=pclientcontact, project_in_charge=ppic, project_in_charge_contact_number=ppiccontact, start_date=pstartdate, end_date=penddate)
+        ProjectT.objects.create(project_title=ptitle, status=pstatus, project_type=ptype, project_location=plocation, client=pclient, client_contact_number=pclientcontact, project_in_charge=ppic, project_in_charge_contact_number=ppiccontact, start_date=pstartdate, end_date=penddate)
         return redirect('projects')
     else:
         return render(request, 'hris/projects/add_project.html', {'user': user})
@@ -87,6 +88,8 @@ def update_project(request, pk):
 
     if(request.method=='POST'):
         ptitle = request.POST.get('ptitle')
+        pstatus = request.POST.get('pstatus')
+        print(pstatus)
         ptype = request.POST.get('ptype')
         plocation = request.POST.get('plocation')
         pclient = request.POST.get('pclient')
@@ -102,7 +105,7 @@ def update_project(request, pk):
         if pstartdate == '':
             pstartdate = project_details.start_date
 
-        ProjectT.objects.filter(pk=pk).update(project_title=ptitle, project_type=ptype, project_location=plocation, client=pclient, client_contact_number=pclientcontact, project_in_charge=ppic, project_in_charge_contact_number=ppiccontact, start_date=pstartdate, end_date=penddate)
+        ProjectT.objects.filter(pk=pk).update(project_title=ptitle, status=pstatus, project_type=ptype, project_location=plocation, client=pclient, client_contact_number=pclientcontact, project_in_charge=ppic, project_in_charge_contact_number=ppiccontact, start_date=pstartdate, end_date=penddate)
         return redirect('view_project_details', pk=pk)
 
     project_details.start_date = str(project_details.start_date)
