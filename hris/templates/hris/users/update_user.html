@@ -1,0 +1,45 @@
+{% extends 'hris/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Update {{ curr_user.name }}</h1>
+<div>
+    <form class="add-form" method="POST" action="{% url 'update_user' pk=curr_user.user_id %}"> {% csrf_token %}
+        <div class="form-group row">
+            <label for="ptitle" class="col-form-label">Name:</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="uformalname" name="uformalname" value="{{ curr_user.name }}">
+            </div>
+        </div>
+        <div class="form-group row">
+          <label for="ptitle" class="col-form-label">Username:</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="u_username" name="u_username" value="{{ curr_user.username }}">
+          </div>
+      </div>
+      <div class="form-group row">
+        <label for="ptitle" class="col-form-label">Type:</label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" id="u_type" name="u_type" value="{{ curr_user.user_type }}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="ptitle" class="col-form-label">Current Password:</label>
+        <div class="col-sm-7">
+          <input type="password" class="form-control" id="u_password" name="u_current_pass">
+        </div>
+    <div class="form-group row">
+      <label for="ptitle" class="col-form-label">Password:</label>
+      <div class="col-sm-7">
+        <input type="password" class="form-control" id="u_password" name="u_password">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="button" class="col-form-label"></label>
+    <div class="col-sm-7 text-right">
+        <button type="submit" class="mt-3 btn btn-outline-secondary">Update User</button>
+    </div>
+</div>
+    </form>
+</div>
+{% endblock %}

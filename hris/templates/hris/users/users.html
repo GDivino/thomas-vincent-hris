@@ -16,19 +16,21 @@
 <table class="table">
     <thead class>
         <tr>
+            <th scope="col">Username</th>
             <th scope="col">Name</th>
             <th scope="col">User Type</th>
-            <th scope="col">Username</th>
             <th scope="col">Edit</a></th>
+            <th scope="col">Delete</a></th>
         </tr>
     </thead>
     <tbody>
         {% for u in users %}
         <tr>
+            <td> {{ u.username }} </td>
             <td> {{ u.name }} </td>
             <td> {{ u.user_type }} </td>
-            <td> {{ u.username }} </td>
-            <td><a href="#">Edit</a></td>
+            <td><a href="{% url 'update_user' pk=u.user_id %}">Edit</a></td>
+            <td><a href="{% url 'delete_user' pk=u.user_id %}" class="text-danger">Delete</a></td>
         </tr>
         {% endfor %}
     </tbody>

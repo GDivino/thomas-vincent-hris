@@ -8,7 +8,7 @@ from django.contrib.sessions.models import Session
 Session.objects.all().delete()
 
 # helper functions
-def fileCheckUpload(upload, existing, db, pk):
+def imageUpdate(upload, existing, db, pk):
     if upload == None: # if no file upload
             upload = existing
     else: # if there's a file upload
@@ -17,6 +17,50 @@ def fileCheckUpload(upload, existing, db, pk):
 
         worker_details = db.objects.get(pk=pk)
         worker_details.image = upload
+        worker_details.save()
+
+def bioDataUpdate(upload, existing, db, pk):
+    if upload == None: # if no file upload
+            upload = existing
+    else: # if there's a file upload
+        if existing: # if file exists already
+            os.remove(existing.path)
+
+        worker_details = db.objects.get(pk=pk)
+        worker_details.biodata = upload
+        worker_details.save()
+
+def signedContractUpdate(upload, existing, db, pk):
+    if upload == None: # if no file upload
+            upload = existing
+    else: # if there's a file upload
+        if existing: # if file exists already
+            os.remove(existing.path)
+
+        worker_details = db.objects.get(pk=pk)
+        worker_details.contract = upload
+        worker_details.save()
+
+def nbiClearanceUpdate(upload, existing, db, pk):
+    if upload == None: # if no file upload
+            upload = existing
+    else: # if there's a file upload
+        if existing: # if file exists already
+            os.remove(existing.path)
+
+        worker_details = db.objects.get(pk=pk)
+        worker_details.nbi_clearance = upload
+        worker_details.save()
+
+def medicalReportUpdate(upload, existing, db, pk):
+    if upload == None: # if no file upload
+            upload = existing
+    else: # if there's a file upload
+        if existing: # if file exists already
+            os.remove(existing.path)
+
+        worker_details = db.objects.get(pk=pk)
+        worker_details.medical_report = upload
         worker_details.save()
 
 def fileCheckDelete(file):
@@ -89,7 +133,6 @@ def update_project(request, pk):
     if(request.method=='POST'):
         ptitle = request.POST.get('ptitle')
         pstatus = request.POST.get('pstatus')
-        print(pstatus)
         ptype = request.POST.get('ptype')
         plocation = request.POST.get('plocation')
         pclient = request.POST.get('pclient')
@@ -133,8 +176,9 @@ def add_worker(request):
         flast_name = request.POST.get('last_name')
         fcontact_number = request.POST.get('contact')
         fimage = request.FILES.get('image')
+        fbiodata = request.FILES.get('biodata')
 
-        WorkerT.objects.create(first_name=ffirst_name, last_name=flast_name, contact_number=fcontact_number, image=fimage)
+        WorkerT.objects.create(first_name=ffirst_name, last_name=flast_name, contact_number=fcontact_number, image=fimage, biodata=fbiodata)
         return redirect('workers')
     else:
         return render(request, 'hris/workers/add_worker.html', {'user': user})
@@ -171,8 +215,10 @@ def update_worker(request, pk):
         flast_name = request.POST.get('last_name')
         fcontact_number = request.POST.get('contact')
         fimage = request.FILES.get('image')
+        fbiodata = request.FILES.get('biodata')
 
-        fileCheckUpload(fimage, worker.image, WorkerT, pk)
+        imageUpdate(fimage, worker.image, WorkerT, pk)
+        bioDataUpdate(fbiodata, worker.biodata, WorkerT, pk)
         
         WorkerT.objects.filter(pk=pk).update(first_name=ffirst_name, last_name=flast_name, contact_number=fcontact_number)
         return redirect('worker_details', pk=pk)
@@ -239,9 +285,9 @@ def update_applicant(request, pk):
         fnbi_clearance = request.FILES.get('wNbiClearance')
         fmedical_report = request.FILES.get('wMedicalReport')
 
-        fileCheckUpload(fsigned_contract, applicant.contract, AssignmentT, pk)
-        fileCheckUpload(fnbi_clearance, applicant.nbi_clearance, AssignmentT, pk)
-        fileCheckUpload(fmedical_report, applicant.medical_report, AssignmentT, pk)
+        signedContractUpdate(fsigned_contract, applicant.contract, AssignmentT, pk)
+        nbiClearanceUpdate(fnbi_clearance, applicant.nbi_clearance, AssignmentT, pk)
+        medicalReportUpdate(fmedical_report, applicant.medical_report, AssignmentT, pk)
 
         if fstart_date == '':
             fstart_date = applicant.start_date
@@ -342,11 +388,47 @@ def add_users(request):
         u_type = request.POST.get('u_type')
         u_username = request.POST.get('u_username')
         u_password = make_password(request.POST.get('u_password'))
+
+        if UserT.objects.filter(username=u_username).exists():
+            return redirect('add_users')
+
         UserT.objects.create(name=uformalname, user_type=u_type, username=u_username, password=u_password)
         return redirect('users')
 
     else:
         return render(request, 'hris/users/add_users.html', {'user': user})
+
+def update_user(request, pk):
+    user = auth(request)
+    if user == False:
+        return redirect('login')
+    
+    user_edit = UserT.objects.get(user_id=pk)
+
+    if request.method == 'POST':
+        uformalname = request.POST.get('uformalname')
+        u_type = request.POST.get('u_type')
+        u_username = request.POST.get('u_username')
+        u_current_pass = request.POST.get('u_current_pass')
+        u_password = make_password(request.POST.get('u_password'))
+
+        if u_current_pass == '':
+            UserT.objects.filter(user_id=pk).update(name=uformalname,user_type=u_type, username=u_username)
+            return redirect('users')
+
+        if check_password(u_current_pass, user_edit.password):
+            UserT.objects.filter(user_id=pk).update(name=uformalname, user_type=u_type, username=u_username, password=u_password)
+            return redirect('users')
+    
+    return render(request, 'hris/users/update_user.html', {'user': user, 'curr_user': user_edit})
+
+def delete_user(request, pk):
+    user = auth(request)
+    if user == False:
+        return redirect('login')
+
+    UserT.objects.filter(user_id=pk).delete()
+    return redirect('users')
 
 def login(request):
     if request.method == 'POST':        

@@ -10,6 +10,11 @@
             <div class="col d-flex justify-content-center"><img src="{{ MEDIA_URL }}{{ worker.image }}" class='app_pic'/></div>
             <div class="col pt-3 d-flex justify-content-center">{{ worker.first_name }} {{ worker.last_name }}</div>
             <div class="col pt-1 d-flex justify-content-center"><label style="color:#5F5F6E">{{ worker.contact_number }}</label></div>
+            {% if worker.biodata %}
+            <div class="col pt-1 d-flex justify-content-center">
+                <a href="{{ MEDIA_URL }}{{ worker.biodata }}" target="_blank">View Biodata</a>
+            </div>
+            {% endif %}
             <div class="col pt-3 d-flex justify-content-center"><a href="{% url 'update_worker' pk=worker.worker_id %}"><button class="add btn btn-primary">Edit Profile</button></a></div>
             <!-- <div class="col pt-3 d-flex justify-content-center"><button onclick="window.location.href={% url 'update_worker' pk=worker.worker_id %}" class="add btn btn-primary">Edit Profile</button></div> -->
         </div>
@@ -40,6 +45,7 @@
                 </table>
             </div>
         </div>
+    </div>
 </div>
 
 {% endblock %}

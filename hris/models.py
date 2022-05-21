@@ -20,7 +20,6 @@ class AssignmentT(models.Model):
     base_pay = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
-    biodata = models.FileField(blank=True, null=True, upload_to='biodata')
     medical_report = models.FileField(blank=True, null=True, upload_to='medreport')
     nbi_clearance = models.FileField(blank=True, null=True, upload_to='nbi')
     contract = models.FileField(blank=True, null=True, upload_to='contract')
@@ -42,7 +41,7 @@ class EvaluationReportT(models.Model):
     attendance = models.IntegerField(blank=True, null=True)
     volume_of_output = models.IntegerField(blank=True, null=True)
     attitude = models.IntegerField(blank=True, null=True)
-    eassignment = models.ForeignKey(AssignmentT, models.DO_NOTHING, blank=True, null=True)
+    eassignment = models.ForeignKey('AssignmentT', models.CASCADE, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -85,6 +84,7 @@ class WorkerT(models.Model):
     last_name = models.CharField(max_length=30)
     contact_number = models.CharField(max_length=16, blank=True, null=True)
     image = models.ImageField(upload_to='worker')
+    biodata = models.FileField(blank=True, null=True, upload_to='biodata')
 
     class Meta:
         managed = True
