@@ -58,4 +58,8 @@ td {
     background-color: #ac820b!important;
 }
 
+#dp {
+    object-fit: cover;
+}
+
 
