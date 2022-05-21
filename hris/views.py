@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from .models import UserT, WorkerT, ProjectT, AssignmentT, EvaluationReportT
 from django.contrib.sessions.models import Session
 
-# Session.objects.all().delete()
+Session.objects.all().delete()
 
 # helper functions
 def fileCheckUpload(upload, existing, db, pk):

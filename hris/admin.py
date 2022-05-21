@@ -1,7 +1,20 @@
+from django import forms
 from django.contrib import admin
+from django.contrib.auth.hashers import make_password
 
 from .models import UserT
-admin.site.register(UserT)
+# admin.site.register(UserT)
+
+class UserTForm(forms.ModelForm):
+    class Meta:
+        model = UserT
+        fields = '__all__'
+    def clean_password(self):        
+        return make_password(self.cleaned_data['password'])
+
+@admin.register(UserT)
+class UserT(admin.ModelAdmin):
+    form = UserTForm
 
 from .models import WorkerT
 admin.site.register(WorkerT)
