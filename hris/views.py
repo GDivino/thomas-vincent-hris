@@ -113,10 +113,6 @@ def view_project_details(request, pk):
     user = auth(request)
     if user == False:
         return redirect('login')
-
-    # if request.method == 'POST':
-    #     status = request.POST.get('<name of status in html>')
-    # ProjectT.objects.filter(pk=pk).update(status=status)
     
     project_details = get_object_or_404(ProjectT, pk=pk)
     worker_objects = WorkerT.objects.all()
